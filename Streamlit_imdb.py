@@ -106,6 +106,49 @@ def load_data(data_select):
 load_data(data_select)
 
 
+# creating expander
+
+def main():
+    menu = ["Search", "None"]
+    choice = st.sidebar.selectbox("Menu", menu)
+
+    if choice == 'Search':
+        st.header("Choose your favourite movies by Year")
+        data['release_date'] = pd.to_datetime(data['release_date'])
+
+        with st.expander("Search by Year"):
+            movie_year = st.number_input("Year", 1990, 2022)
+            df_for_year = data[data['release_date'].dt.year == movie_year]
+            st.dataframe(data)
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            with st.expander("Title"):
+                for movie in data['movie_name'].tolist():
+                    st.success(movie)
+
+        with col2:
+            with st.expander("Ratings"):
+                for movie1 in data['rating'].tolist():
+                    st.write(movie1)
+
+        with col3:
+            with st.expander("Genre"):
+                for movie2 in data['genre'].tolist():
+                    st.write(movie2)
+
+    else:
+        print("no")
+
+
+main()
+
+
+
+
+# function
+
 def load(movies):
     if movies == "Top Actor name":
         st.title("Ryan Reynolds")
