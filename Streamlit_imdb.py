@@ -1,17 +1,13 @@
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from PIL import Image
+import plotly.express as px
 
 
-
-
-
+st.title("Webscraping  of Top 100 Adventure Movies in IMDB")
+st.image("Downloads\\lord.jpg", use_column_width = True)
 st.markdown("""
-
-# **Webscraping  of Top 100 Adventure Movies in IMDB**
 
 ### The things to webscrape from IMDB are
 ###### 1. Movie name\n
@@ -24,63 +20,119 @@ st.markdown("""
 ###### 8. Stars (Actors)\n
 ###### 9. Filming Dates
 
-
-
-
-
-
 """)
 
-st.header("Webscraping Data")
 
-data = pd.read_csv("data_imdb_adventure.csv")
-data
+# it use to read and upload the file
+
+uploaded_files = st.sidebar.file_uploader("Choose a CSV file", accept_multiple_files = True)
+for uploaded_file in uploaded_files:
+     data = pd.read_csv(uploaded_file)
+     st.write("filename:", uploaded_file.name)
+     st.write(data)
+
 
 # it used to make selectbox
-# data_select =st.sidebar.selectbox("Select your Visualization", ("Movie ratings by year of release", "Movies in top 100 by Actor", "Movies in top 100 by Director"))
 
-# def load_data(data_select):
-#     if data_select == "Movie ratings by year of release":
-# st.title("Visualization of Movie ratings by year of release")
-# st.pyplot('release_date', 'rating')
+data_select = st.sidebar.selectbox("Select your Visualization", ("Movie ratings by year of release", "Movie in top 100 by Actor", "Movie in top 100 by Director"))
+k = st.sidebar.selectbox('Minimum number of movies played', [1, 2, 3, 4, 5])
+movies = st.sidebar.selectbox('Movies to Recommended', ("Top Actor name", "Top Directo name", "Top Movie name"))
 
 
 
-# imdb_movie = plt.scatter(data['release_date'], data['rating'])
-# st.title("Visualization of Movie ratings by year of release")
-# st.pyplot(imdb_movie)
+# function
 
-st.title("Visualization of Movie ratings by year of release")
-fig = plt.figure(figsize = (10, 8))
-ax = fig.add_subplot(1,1,1)
-
-ax.scatter(
-        data["release_date"],
-        data["rating"],
-        c = data['votes'], cmap='RdYlBu_r'
-    )
-
-ax.set_xlabel("Year of release")
-ax.set_ylabel("Movie rating")
-ax.set_title("Movie rating over time")
-st.write(fig)
-
-
-movie_actors_dict = {}
-for movie, actors in zip(data['movie_name'], data['actors']):
-    movie_actors_dict[movie] = actors.split(',')
-
-st.title("Visualization of Movie in top 100 by Actor")
-fig = plt.figure(figsize = (10, 8))
-
-
-ax.bar(
-        data["actors"],
-        data["actors"]
+def load_data(data_select):
+    if data_select == "Movie ratings by year of release":
+        st.title("Visualization of Movie ratings by year of release")
         
-    )
+        fig = px.scatter(
+                   data,  x="release_date", y="rating", color= 'votes', template='seaborn', 
+                   title='Movie rating over time', 
+                   labels={"release_date": "Year of release",
+                                 "rating": "Movie rating"}
+                                 )
 
-ax.set_xlabel("Actor's name")
-ax.set_ylabel("Number of movies")
-ax.set_title("")
-st.write(fig)
+        st.plotly_chart(fig, use_column_width = True)
+
+    elif data_select == "Movie in top 100 by Actor":
+        st.title("Visualization of Movie in top 100 by Actor")
+        
+        movie_actors_dict = {}
+        for movie, actors in zip(data['movie_name'], data['actors']):
+            movie_actors_dict[movie] = actors.split(',')
+            
+        movie_actors = pd.DataFrame(movie_actors_dict).melt(var_name= 'movie', value_name='actors')
+
+        # actors that played at least k number of movies
+        nb_movies_per_actor = movie_actors['actors'].value_counts()
+
+        v = nb_movies_per_actor [nb_movies_per_actor >= k]
+        actor_movie = pd.DataFrame({'actor': v.index, 'number_movies': v.values})
+
+
+        fig = px.bar(
+                     actor_movie, x = "actor", y = "number_movies",
+                            template = 'seaborn',
+                            title = f'Actors that played at least {k} movies', 
+                            labels = {"actor": "Actor's name",
+                                    "number_movies": "Number of movies"}
+                                    )
+
+        st.plotly_chart(fig) 
+    
+    elif data_select == "Movie in top 100 by Director":
+        st.title("Visualization of Movie in top 100 by Director")
+        nb_movies_per_director = data['director'][data['director'].str.split(',').apply(len) == 1].value_counts()
+        v = nb_movies_per_director [nb_movies_per_director >= k]
+        director_movie = pd.DataFrame({'director': v.index, 'number_movies': v.values})
+
+
+        fig = px.bar(
+                     director_movie, x = "director", y = "number_movies",
+                            template = 'seaborn',
+                            title = f'Directors that played at least {k} movies', 
+                            labels = {"director": "Director's name",
+                                    "number_movies": "Number of movies"}
+                                    )
+
+        st.plotly_chart(fig) 
+        
+
+    else:
+        print("no")
+
+    
+load_data(data_select)
+
+
+def load(movies):
+    if movies == "Top Actor name":
+        st.title("Ryan Reynolds")
+        st.image("Downloads\\lord2.jpg", use_column_width = True)
+        
+    elif movies == "Top Directo name":
+        st.title("Matthew Vaughn")
+        st.image("Downloads\\lord3.jpg", use_column_width = True)
+        
+    elif movies == "Top Movie name":
+        st.title("Avengers: infinity war")
+        st.image("Downloads\\lord4.jpg", use_column_width = True)
+        
+    else:
+        print("no")
+
+
+load(movies)
+
+# rating the work
+
+st.subheader("Give some heart for the work")
+my_range = range(1, 6)
+number = st.select_slider("Choose a number", options = my_range, value = 1)
+st.write("You given us %s hearts:" %number, number*":heart:")
+
+
+if number == 5:
+    st.balloons()
+
