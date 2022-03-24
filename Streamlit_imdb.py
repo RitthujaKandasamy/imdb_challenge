@@ -7,9 +7,8 @@ import plotly.express as px
 
 st.title("Webscraping  of Top 100 Adventure Movies in IMDB")
 st.image("Downloads\\lord.jpg", use_column_width = True)
-st.markdown("""
+Info = st.markdown("""
 
-### The things to webscrape from IMDB are
 ###### 1. Movie name\n
 ###### 2. Description\n
 ###### 3. Release Date\n
@@ -109,7 +108,7 @@ load_data(data_select)
 # creating expander
 
 def main():
-    menu = ["Search", "None"]
+    menu = ["Info", "Search", "None"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == 'Search':
@@ -137,6 +136,10 @@ def main():
             with st.expander("Genre"):
                 for movie2 in data['genre'].tolist():
                     st.write(movie2)
+
+    elif choice == 'Info':
+        st.header("The things to webscrape from IMDB are")
+        Info
 
     else:
         print("no")
