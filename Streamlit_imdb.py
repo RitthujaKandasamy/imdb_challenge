@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+import base64
 
 
 st.title("Webscraping  of Top 100 Adventure Movies in IMDB")
@@ -19,11 +20,19 @@ for uploaded_file in uploaded_files:
      st.write(data)
 
 
+# def st_display_pdf(pdf_file):
+#     with open(pdf_file, "rb") as f:
+#         base64_pdf = base64.b64encode(pdf_file.read()).decode('utf-8')
+#     pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">' 
+#     st.markdown(pdf_display, unsafe_allow_html=True)
+
+# st_display_pdf("Downloads\\Adventure.pdf")
+
 
 # creating expander
 
 def main():
-    menu = ["None", "Info", "Search"]
+    menu = ["None", "Link", "Info", "IMDB Video", "Search"]
     choice = st.sidebar.radio("Menu", menu)
 
     if choice == 'Search':
@@ -67,7 +76,18 @@ def main():
                         ###### 9. Filming Dates
 
                         """)
-
+    
+    elif choice == 'Link':
+        st.title('Top 100 IMBb adventure movies')
+        st.markdown('This App shows some visualiztions on the top 100 adventure movies on [IMDb](https://www.imdb.com/).')
+        st.image("Downloads\\movie.jpg", use_column_width = True)
+        
+    elif choice == 'IMDB Video':
+        st.title('Video about IMDB')
+        st.markdown("IMDb is the world's most popular and authoritative source for movie, TV and celebrity content. Find ratings and reviews for the newest movie and TV shows.")
+        video_file = open('myvideo.mp4', 'rb')
+        video_bytes = video_file.read()
+        st.video(video_bytes)
 
     else:
         print("no")
