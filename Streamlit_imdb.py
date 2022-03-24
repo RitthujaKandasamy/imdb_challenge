@@ -7,19 +7,7 @@ import plotly.express as px
 
 st.title("Webscraping  of Top 100 Adventure Movies in IMDB")
 st.image("Downloads\\lord.jpg", use_column_width = True)
-Info = st.markdown("""
 
-###### 1. Movie name\n
-###### 2. Description\n
-###### 3. Release Date\n
-###### 4. Director Name\n
-###### 5. Rating\n
-###### 6. Duration\n
-###### 7. Genre\n
-###### 8. Stars (Actors)\n
-###### 9. Filming Dates
-
-""")
 
 
 # it use to read and upload the file
@@ -31,11 +19,69 @@ for uploaded_file in uploaded_files:
      st.write(data)
 
 
+
+# creating expander
+
+def main():
+    menu = ["None", "Info", "Search"]
+    choice = st.sidebar.radio("Menu", menu)
+
+    if choice == 'Search':
+        st.header("Choose your favourite movies by Year")
+        data['release_date'] = pd.to_datetime(data['release_date'])
+
+        with st.expander("Search by Year"):
+            movie_year = st.number_input("Year", 1990, 2022)
+            df_for_year = data[data['release_date'].dt.year == movie_year]
+            st.dataframe(data)
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            with st.expander("Title"):
+                for movie in data['movie_name'].tolist():
+                    st.success(movie)
+
+        with col2:
+            with st.expander("Ratings"):
+                for movie1 in data['rating'].tolist():
+                    st.write(movie1)
+
+        with col3:
+            with st.expander("Genre"):
+                for movie2 in data['genre'].tolist():
+                    st.write(movie2)
+
+    elif choice == 'Info':
+        st.header("The things to webscrape from IMDB are")
+        st.markdown("""
+
+                        ###### 1. Movie name\n
+                        ###### 2. Description\n
+                        ###### 3. Release Date\n
+                        ###### 4. Director Name\n
+                        ###### 5. Rating\n
+                        ###### 6. Duration\n
+                        ###### 7. Genre\n
+                        ###### 8. Stars (Actors)\n
+                        ###### 9. Filming Dates
+
+                        """)
+
+
+    else:
+        print("no")
+
+
+main()
+
+
+
 # it used to make selectbox
 
-data_select = st.sidebar.selectbox("Select your Visualization", ("Movie ratings by year of release", "Movie in top 100 by Actor", "Movie in top 100 by Director"))
+data_select = st.sidebar.selectbox("Select your Visualization", ("None", "Movie ratings by year of release", "Movie in top 100 by Actor", "Movie in top 100 by Director"))
 k = st.sidebar.selectbox('Minimum number of movies played', [1, 2, 3, 4, 5])
-movies = st.sidebar.selectbox('Movies to Recommended', ("Top Actor name", "Top Directo name", "Top Movie name"))
+movies = st.sidebar.selectbox('Movies to Recommended', ("None", "Top Actor name", "Top Directo name", "Top Movie name"))
 
 
 
@@ -105,49 +151,22 @@ def load_data(data_select):
 load_data(data_select)
 
 
-# creating expander
+# select your box
 
-def main():
-    menu = ["Info", "Search", "None"]
-    choice = st.sidebar.selectbox("Menu", menu)
+st.title("Are you waiting for Adventure?")
+agree = st.checkbox('Yes')
 
-    if choice == 'Search':
-        st.header("Choose your favourite movies by Year")
-        data['release_date'] = pd.to_datetime(data['release_date'])
+if agree:
+     st.write('**Here comes your favourite adventure**')
+     st.write(":smile:"*20)
+     st.write('**Go to Movies to Recommended at the sidebar**')
 
-        with st.expander("Search by Year"):
-            movie_year = st.number_input("Year", 1990, 2022)
-            df_for_year = data[data['release_date'].dt.year == movie_year]
-            st.dataframe(data)
+agree1 = st.checkbox('No')
 
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            with st.expander("Title"):
-                for movie in data['movie_name'].tolist():
-                    st.success(movie)
-
-        with col2:
-            with st.expander("Ratings"):
-                for movie1 in data['rating'].tolist():
-                    st.write(movie1)
-
-        with col3:
-            with st.expander("Genre"):
-                for movie2 in data['genre'].tolist():
-                    st.write(movie2)
-
-    elif choice == 'Info':
-        st.header("The things to webscrape from IMDB are")
-        Info
-
-    else:
-        print("no")
-
-
-main()
-
-
+if agree1:
+      st.write("**No Adventure**")
+      st.write("Come back again")
+      st.write(":wave:"*20)
 
 
 # function
@@ -171,9 +190,11 @@ def load(movies):
 
 load(movies)
 
+
+
 # rating the work
 
-st.subheader("Give some heart for the work")
+st.subheader("Give some heart for us")
 my_range = range(1, 6)
 number = st.select_slider("Choose a number", options = my_range, value = 1)
 st.write("You given us %s hearts:" %number, number*":heart:")
