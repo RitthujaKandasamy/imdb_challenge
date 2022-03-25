@@ -80,12 +80,12 @@ def main():
     elif choice == 'Link':
         st.title('Top 100 IMBb adventure movies')
         st.markdown('This App shows some visualiztions on the top 100 adventure movies on [IMDb](https://www.imdb.com/).')
-        st.image("Downloads\\movie.jpg", use_column_width = True)
+        st.image("Downloads\\lord5.jpg", use_column_width = True)
         
     elif choice == 'IMDB Video':
         st.title('Video about IMDB')
         st.markdown("IMDb is the world's most popular and authoritative source for movie, TV and celebrity content. Find ratings and reviews for the newest movie and TV shows.")
-        video_file = open('myvideo.mp4', 'rb')
+        video_file = open('Downloads\\myvideo.mp4', 'rb')
         video_bytes = video_file.read()
         st.video(video_bytes)
 
@@ -180,7 +180,9 @@ if agree:
      st.write('**Here comes your favourite adventure**')
      st.write(":smile:"*20)
      st.write('**Go to Movies to Recommended at the sidebar**')
+     st.snow()
 
+     
 agree1 = st.checkbox('No')
 
 if agree1:
