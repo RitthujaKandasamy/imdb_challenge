@@ -37,12 +37,13 @@ def main():
 
     if choice == 'Search':
         st.header("Choose your favourite movies by Year")
-        data['release_date'] = pd.to_datetime(data['release_date'])
+        # data['release_date'] = pd.to_datetime(data['release_date'])
 
-        with st.expander("Search by Year"):
-            movie_year = st.number_input("Year", 1990, 2022)
-            df_for_year = data[data['release_date'].dt.year == movie_year]
-            st.dataframe(data)
+        #with st.expander("Search by Year"):
+        year_options = data['release_date'].unique().tolist()
+        movie_year = st.selectbox("Year", year_options, 0)
+        df = data[data['release_date'] == movie_year]
+        #st.dataframe(data)
 
         col1, col2, col3 = st.columns(3)
 
@@ -115,7 +116,8 @@ def load_data(data_select):
                    data,  x="release_date", y="rating", color= 'votes', template='seaborn', 
                    title='Movie rating over time', 
                    labels={"release_date": "Year of release",
-                                 "rating": "Movie rating"}
+                                 "rating": "Movie rating"},
+            
                                  )
 
         st.plotly_chart(fig, use_column_width = True)
