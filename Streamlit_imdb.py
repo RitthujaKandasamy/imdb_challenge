@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
-import base64
+
 
 
 st.title("Webscraping  of Top 100 Adventure Movies in IMDB")
