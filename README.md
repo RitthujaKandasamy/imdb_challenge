@@ -4,12 +4,16 @@ This App shows some visualiztions on the top 100 adventure movies on [IMDb](http
 
 ####  The things to webscrape from IMDB are
         
-                        ###### 1. Movie name\n
-                        ###### 2. Description\n
-                        ###### 3. Release Date\n
-                        ###### 4. Director Name\n
-                        ###### 5. Rating\n
-                        ###### 6. Duration\n
-                        ###### 7. Genre\n
-                        ###### 8. Stars (Actors)\n
-                        ###### 9. Filming Dates
+                         1. Movie name\n
+                         2. Description\n
+                         3. Release Date\n
+                         4. Director Name\n
+                         5. Rating\n
+                         6. Duration\n
+                         7. Genre\n
+                         8. Stars (Actors)\n
+                         9. Filming Dates
+                         
+#### How this app helpful
+                          
+                         1. 
