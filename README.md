@@ -21,6 +21,6 @@ This App shows some visualiztions on the top 100 adventure movies on [IMDb](http
                           1. Top Actor name
                           2. Top Directo name
                           3. Top Movie name
-            !( Downloads//9.png)              
-                     
-                         
+                          
+                                              
+![9](https://user-images.githubusercontent.com/99767517/203007275-d4ff5ec3-0f32-42ed-b55e-c1b9e0378ecf.png)
