@@ -21,7 +21,7 @@ This App shows some visualiztions on the top 100 adventure movies on [IMDb](http
 
 #### How this app helpful
            
-           This app recommends the below things from the Top 100 Adventure Movies in IMDB to watch; this helps you use your favorite items.
+           This app recommends the below things from the Top 100 Adventure Movies in IMDB to watch; this helps you choose your favorite items.
                           
                           1. Top Actor name
                           2. Top Directo name
